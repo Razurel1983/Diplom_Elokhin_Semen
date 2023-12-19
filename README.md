@@ -7,7 +7,12 @@ SQL-запросы для получения данных из БД Яндекс
 Информация по запуску тестов: Для запуска тестов должны быть установлены пакеты pytest и requests Запуск всех тестов выполянется командой pytest
 
 SQL запросы Задание 1 Представь: тебе нужно проверить, отображается ли созданный заказ в базе данных. Для этого: выведи список логинов курьеров с количеством их заказов в статусе «В доставке» (поле inDelivery = true).
-
+SELECT "Couriers".login,
+COUNT(*)
+FROM "Couriers"
+LEFT JOIN "Orders" ON "Couriers".id = "Orders"."courierId"
+WHERE "Orders"."inDelivery" = true
+GROUP BY "Couriers".login;
 Ссылка на скриншот выполненого запроса: https://drive.google.com/file/d/1Sd7fUcTY55PixA6Igjit86mhCHBAVVP_/view?usp=sharing
 
 
