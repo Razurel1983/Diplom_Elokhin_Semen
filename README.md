@@ -31,16 +31,36 @@ SELECT track,
 
 configuration.py URL_SERVICE = "https://111e81da-3545-40f4-b400-c5a9953f124f.serverhub.praktikum-services.ru/" CREATE_ORDER = "api/v1/orders" GET_ORDER = "/api/v1/orders/track"
 
-data.py order_body = { "firstName": "Naruto", "lastName": "Uchiha", "address": "Konoha, 142 apt.", "metroStation": 4, "phone": "+7 800 355 35 35", "rentTime": 5, "deliveryDate": "2020-06-06", "comment": "Saske, come back to Konoha", "color": [ "BLACK" ] }
+data.py headers = {
+    "Content-Type": "application/json"
+}
 
-sender_stand_request.py import configuration import requests import data
+order_body = {
+    "firstName": "Semen",
+    "lastName": "Elokhin",
+    "address": "Lenina, 123",
+    "metroStation": 5,
+    "phone": "+7 925 555 55",
+    "rentTime": 7,
+    "deliveryDate": "2023-12-18",
+    "comment": "Saske, come back to Lenina",
+    "color": [
+        "BLACK"
+    ]
+}
 
-def post_create_order(order_body) : return requests.post(configuration.URL_SERVICE + configuration.CREATE_ORDER, json=order_body) track_number = post_create_order(data.order_body).json()["track"]
+requests_function.py 
+import requests
+import configuration
+import data
 
-response = post_create_order(data.order_body) print(response.status_code) print(response.json()["track"])
 
-def get_order_on_number(): track = post_create_order(data.order_body).json()["track"] return requests.get(configuration.URL_SERVICE + configuration.REQUEST_ORDER + str(track))
+def post_new_order():
+    return requests.post(configuration.URL_SERVICE + configuration.CREATE_ORDER,
+                         json=data.order_body,
+                         headers=data.headers)
 
-response = get_order_on_number() print(response.status_code)
 
-test_order_by_number.py import sender_stand_request def positive_assert(): order_response = sender_stand_request.get_order_on_number() assert order_response.status_code == 200
+def get_order(track_number):
+    return requests.get(configuration.URL_SERVICE + configuration.GET_ORDER,
+                        params={"t": track_number})
